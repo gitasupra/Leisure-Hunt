@@ -29,6 +29,12 @@ class Object{
         int getKey(){
             return hasKey;
         }
+        std::string getTitle(){
+            return title;
+        }
+        std::string getDesc(){
+            return desc;
+        }
         void unlock(){
             hasLock=0;
         }
@@ -46,7 +52,16 @@ class Object{
 
 class Room{
     public:
-        Room(std::string inTitle, std::string inDesc);
+        Room(std::string inTitle){
+            title=inTitle;
+        };
+        ~Room(){
+            for(auto it:items){
+                if(it!= nullptr){
+                    delete it;
+                }
+            }
+        }
         void addNeighbor(Room* neighbor, int direction){
             neighbors[direction]=neighbor;
         }
@@ -59,11 +74,31 @@ class Room{
         Object* getItem(int idx){
             return items[idx];
         }
+        std::string getTitle(){
+            return title;
+        }
     private:
         std::string title;
-        std::string desc;
         Room* neighbors[4]={nullptr}; //left, up, right, down
         Object* items[4]={nullptr};
+};
+
+class Game{
+    public:
+        Game(std::string inTreasure){
+            treasure=inTreasure;
+            
+        }
+        ~Game(){
+            for(auto rm: rooms){
+                if(rm !=nullptr){
+                    delete rm;
+                }
+            }
+        }
+        std::vector<Room*> rooms={nullptr};
+    private:
+        std::string treasure;
 };
 
 #endif
