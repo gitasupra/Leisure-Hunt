@@ -32,6 +32,61 @@ void Game::printOptions(Room* rm){
     cout<<endl;
 }
 
+bool Game::interactWithObject(Object* item){
+    if(item->getLock()){
+        cout<<endl<<"The "<<item->getTitle()<<" has a ";
+        switch (item->getLock())
+        {
+        case 1:
+            cout<<"RED";
+            break;
+        case 2:
+            cout<<"YELLOW";
+            break;
+
+        case 3:
+            cout<<"BLUE";
+            break;
+        }
+        cout<<" lock."<<endl;
+
+        if(!gamePlayer.hasKey(item->getLock())){
+            cout<<"You do not have the matching key."<<endl;
+            return false;
+        }
+        else{
+            cout<<"You use the matching key to unlock the "<<item->getTitle()<<". "<<endl;
+            item->unlock();
+        }
+    }
+
+    cout<<endl<<item->getDesc()<<endl;
+
+    if(item->getKey()){
+        cout<<endl<<"The "<<item->getTitle()<<" has a ";
+        switch (item->getKey())
+        {
+        case 1:
+            cout<<"RED";
+            break;
+        case 2:
+            cout<<"YELLOW";
+            break;
+
+        case 3:
+            cout<<"BLUE";
+            break;
+        }
+        cout<<" key. You take it."<<endl;
+        gamePlayer.gainKey(item->getKey());
+        item->removeKey();
+    }
+    if(treasure == item->getTitle()){
+        return true;
+    }
+    return false;
+}
+
 void Game::runGame(){
     bool found=false;
     string myInput="";
@@ -45,13 +100,21 @@ void Game::runGame(){
         if(myInput != "left" && myInput != "right" && myInput != "up" && myInput != "down"){
             try{
                 inputNum=stoi(myInput);
-                //do something with number input
             }
             catch(std::invalid_argument &e){
-                cout<<"Invalid input, please try again."<<endl;
+                cout<<"\nInvalid input, please try again."<<endl;
+                continue;
+            }
+            if(inputNum>3 || inputNum<0 || curRoom->getItem(inputNum) ==nullptr){
+                cout<<"\nInvalid input, please try again."<<endl;
+                continue;
+            }
+            if(interactWithObject(curRoom->getItem(inputNum))){
+                found=true;
+                continue;
             }
         }
-        if(myInput=="left" && curRoom->getNeighbor(0) !=nullptr){
+        else if(myInput=="left" && curRoom->getNeighbor(0) !=nullptr){
             curRoom=curRoom->getNeighbor(0); 
         }
         else if(myInput=="right" && curRoom->getNeighbor(1) !=nullptr){
@@ -64,4 +127,5 @@ void Game::runGame(){
             curRoom=curRoom->getNeighbor(3); 
         }
     }
+    cout<<outro<<endl;
 }

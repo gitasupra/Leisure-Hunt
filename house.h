@@ -13,7 +13,7 @@ class Player{
             keys[k]=true;
         }
     private:
-        bool keys[3]={false};
+        bool keys[4]={false};//fixme
 };
 
 class Object{
@@ -39,7 +39,7 @@ class Object{
         void unlock(){
             hasLock=0;
         }
-        void takeKey(){
+        void removeKey(){
             hasKey=0;
         }
     private:
@@ -80,8 +80,8 @@ class Room{
         }
     private:
         std::string title;
-        Room* neighbors[4]={nullptr, nullptr, nullptr, nullptr}; //0=left, 1=right, 2=up, 3=down
-        Object* items[4]={nullptr, nullptr, nullptr, nullptr};
+        Room* neighbors[4]={nullptr}; //0=left, 1=right, 2=up, 3=down
+        Object* items[4]={nullptr};
 };
 
 #endif

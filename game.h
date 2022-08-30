@@ -28,8 +28,10 @@ class Game{
             startRoom=rm;
         }
         void printOptions(Room* curRoom);
+        bool interactWithObject(Object* item);
         void runGame();
         std::vector<Room*> rooms={nullptr};
+        Player gamePlayer;
     private:
         std::string treasure;
         std::string intro="Game Start!";
