@@ -27,6 +27,8 @@ class Game{
         void setStart(Room* rm){
             startRoom=rm;
         }
+        std::string colors[3]={"RED","YELLOW","BLUE"};
+        std::string directions[4]={"left","right","up","down"};
         void printOptions(Room* curRoom);
         bool interactWithObject(Object* item);
         void runGame();

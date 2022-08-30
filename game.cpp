@@ -13,20 +13,7 @@ void Game::printOptions(Room* rm){
     }
     for(int i=0; i<4; i++){
         if(rm->getNeighbor(i)!= nullptr){
-            switch(i){
-                case 0:
-                    cout<<"left: "<< rm->getNeighbor(i)->getTitle()<<endl;
-                    break;
-                case 1:
-                    cout<<"right: "<< rm->getNeighbor(i)->getTitle()<<endl;
-                    break;
-                case 2:
-                    cout<<"up: "<< rm->getNeighbor(i)->getTitle()<<endl;
-                    break;
-                case 3:
-                    cout<<"down: "<< rm->getNeighbor(i)->getTitle()<<endl;
-                    break;
-            }
+            cout<<directions[i]<<": "<<rm->getNeighbor(i)->getTitle()<<endl;
         }
     }
     cout<<endl;
@@ -34,21 +21,7 @@ void Game::printOptions(Room* rm){
 
 bool Game::interactWithObject(Object* item){
     if(item->getLock()){
-        cout<<endl<<"The "<<item->getTitle()<<" has a ";
-        switch (item->getLock())
-        {
-        case 1:
-            cout<<"RED";
-            break;
-        case 2:
-            cout<<"YELLOW";
-            break;
-
-        case 3:
-            cout<<"BLUE";
-            break;
-        }
-        cout<<" lock."<<endl;
+        cout<<endl<<"The "<<item->getTitle()<<" has a "<<colors[item->getLock()-1]<<" lock."<<endl;
 
         if(!gamePlayer.hasKey(item->getLock())){
             cout<<"You do not have the matching key."<<endl;
@@ -63,21 +36,7 @@ bool Game::interactWithObject(Object* item){
     cout<<endl<<item->getDesc()<<endl;
 
     if(item->getKey()){
-        cout<<endl<<"The "<<item->getTitle()<<" has a ";
-        switch (item->getKey())
-        {
-        case 1:
-            cout<<"RED";
-            break;
-        case 2:
-            cout<<"YELLOW";
-            break;
-
-        case 3:
-            cout<<"BLUE";
-            break;
-        }
-        cout<<" key. You take it."<<endl;
+        cout<<endl<<"The "<<item->getTitle()<<" has a "<<colors[item->getKey()-1]<<" key. You take it."<<endl;
         gamePlayer.gainKey(item->getKey());
         item->removeKey();
     }
@@ -125,6 +84,9 @@ void Game::runGame(){
         }
         else if(myInput=="down" && curRoom->getNeighbor(3) !=nullptr){
             curRoom=curRoom->getNeighbor(3); 
+        }
+        else{
+            cout<<"\nInvalid input, please try again."<<endl;
         }
     }
     cout<<outro<<endl;
