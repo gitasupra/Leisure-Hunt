@@ -3,7 +3,9 @@
 using namespace std;
 int main(){
     //create rooms and items without neighbors
-    Game myGame("suitcase");
+    string myIntro="Happy birthday little sibling! I know you like mysteries, so I've left a present in your house. You'll have to do a little investigating to get to it!";
+    string myOutro="Here's your birthday present! I know you've been wanting the new Nitro Witch Game. Enjoy!";
+    Game myGame("suitcase", myIntro,myOutro);
     Room* entrance= new Room("entrance");
     Object* closet= new Object(0,0, "closet","There are a few coats and shoes.");
     entrance->addItem(closet, 0);
@@ -44,7 +46,7 @@ int main(){
     myGame.rooms.push_back(bedR);
 
     //add neighbors
-    //left right up down
+    //index order: left right up down
     entrance->addNeighbor(bedR,0);
     entrance->addNeighbor(hall,1);
 
@@ -66,5 +68,8 @@ int main(){
     bedR->addNeighbor(entrance,1);
     bedR->addNeighbor(dining,2);
 
+    //run the game
+    myGame.setStart(entrance);
+    myGame.runGame();
     return 0;
 }
